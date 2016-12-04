@@ -4,9 +4,17 @@
         <servlet-name>GetKeypoints</servlet-name>
         <servlet-class>ObjectDetection</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SendKeypoints</servlet-name>
+        <servlet-class>SendKeypoints</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GetKeypoints</servlet-name>
         <url-pattern>/GetKeypoints</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SendKeypoints</servlet-name>
+        <url-pattern>/SendKeypoints</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

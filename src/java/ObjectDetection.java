@@ -52,6 +52,7 @@ public class ObjectDetection extends HttpServlet {
          // Wyświetlamy dane użytkownikowi
        
     writer.print(objects.get(0).toJSON());
+    
     }
     
     

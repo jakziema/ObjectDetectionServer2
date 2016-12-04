@@ -51,8 +51,8 @@ public class DatabaseManager {
         public boolean createTables()  {
         String createPrzedmioty = "CREATE TABLE IF NOT EXISTS przedmioty" 
                     + " (OBJECTID INT PRIMARY KEY     NOT NULL,"
-                    + " OBJECTNAME      REAL    NOT NULL, "
-                    + " ROOMNAME   REAL    NOT NULL)";
+                    + " OBJECTNAME      TEXT    NOT NULL, "
+                    + " ROOMNAME   TEXT    NOT NULL)";
         
         String createKeypoints = "CREATE TABLE IF NOT EXISTS keypoints" 
                     + " (ID INT PRIMARY KEY     NOT NULL,"
