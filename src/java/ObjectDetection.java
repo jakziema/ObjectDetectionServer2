@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /*
@@ -34,28 +35,27 @@ public class ObjectDetection extends HttpServlet {
      dbManager = new DatabaseManager();
      dbManager.connectToDB();
      
-    
     response.setContentType("application/json");
     
-    Keypoint keypoint1 = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
-    Keypoint keypoint2 = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
-    Keypoint keypoint3 = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
+    //wybieramy wszystkie przedmioty
+    ArrayList<recognisedObject> objects  = dbManager.selectObjects();
+    //tworzymy jsona
+    JSONObject bigJSON = new JSONObject();
+    JSONArray jsonArray = new JSONArray();
     
-    recognisedObject obraz = new recognisedObject();
-    obraz.setObjectID(4);
-    obraz.setLocalisation("salon");
-    obraz.setName("krzeslo");
-    
-    for (Keypoint keypoint : dbManager.selectKeypointsWhereId(obraz.getObjectID())) {
-        obraz.addToArray(keypoint);
+    //dla każdego obiektu pobieramy jego keypointsy z odpowiednim id
+    for (recognisedObject object: objects) {
+        object.keypointsArray = dbManager.selectKeypointsWhereId(object.getObjectID());
+        jsonArray.put(object.toJSON());
+        bigJSON.put("Przedmioty", jsonArray);
+           
     }
-    
-        
+   
     PrintWriter writer = response.getWriter();
          // Wyświetlamy dane użytkownikowi
        
     //writer.print(obraz.toJSON());
-    writer.print(obraz.toJSON());
+    writer.print(bigJSON);
     
     }
     
