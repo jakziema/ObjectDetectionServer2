@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -77,8 +79,8 @@ public class DatabaseManager {
         return true;
     }
 
-    public ArrayList<recognisedObject> selectObjects() {
-        ArrayList<recognisedObject> objects = new ArrayList<>();
+    public ArrayList<RecognisedObject> selectObjects() {
+        ArrayList<RecognisedObject> objects = new ArrayList<>();
         try {
             ResultSet result = stat.executeQuery("SELECT * FROM objects");
             int id;
@@ -88,7 +90,7 @@ public class DatabaseManager {
                 id = result.getInt("objectid");
                 objectname = result.getString("objectname");
                 roomname = result.getString("roomname");
-                objects.add(new recognisedObject(id, objectname, roomname));
+                objects.add(new RecognisedObject(id, objectname, roomname));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,6 +128,12 @@ public class DatabaseManager {
         }
 
       return keypoints;  
+    }
+    
+    
+    
+    public ArrayList<RecognisedObject> parseJSON(JSONObject jsonObject) {
+        ArrayList<RecognisedObject> 
     }
 
 }

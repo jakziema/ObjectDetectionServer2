@@ -19,48 +19,44 @@ import org.json.JSONObject;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Beata-MacBook
  */
-
 public class ObjectDetection extends HttpServlet {
-    
+
     DatabaseManager dbManager;
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        dbManager = new DatabaseManager();
+        dbManager.connectToDB();
+
+        response.setContentType("application/json");
+        PrintWriter writer = response.getWriter();
+        writer.print(getAllObjects());
+
+    }
+
+    public  JSONObject getAllObjects() {
+        //wybieramy wszystkie przedmioty
+        ArrayList<RecognisedObject> objects = dbManager.selectObjects();
+        //tworzymy jsona
+        JSONObject bigJSON = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        //dla każdego obiektu pobieramy jego keypointsy z odpowiednim id
+        for (RecognisedObject object : objects) {
+            object.keypointsArray = dbManager.selectKeypointsWhereId(object.getObjectID());
+            jsonArray.put(object.toJSON());
+            bigJSON.put("Przedmioty", jsonArray);
+
+        }
         
-     dbManager = new DatabaseManager();
-     dbManager.connectToDB();
-     
-    response.setContentType("application/json");
-    
-    //wybieramy wszystkie przedmioty
-    ArrayList<recognisedObject> objects  = dbManager.selectObjects();
-    //tworzymy jsona
-    JSONObject bigJSON = new JSONObject();
-    JSONArray jsonArray = new JSONArray();
-    
-    //dla każdego obiektu pobieramy jego keypointsy z odpowiednim id
-    for (recognisedObject object: objects) {
-        object.keypointsArray = dbManager.selectKeypointsWhereId(object.getObjectID());
-        jsonArray.put(object.toJSON());
-        bigJSON.put("Przedmioty", jsonArray);
-           
-    }
-   
-    PrintWriter writer = response.getWriter();
-         // Wyświetlamy dane użytkownikowi
-       
-    //writer.print(obraz.toJSON());
-    writer.print(bigJSON);
-    
+        return bigJSON;
     }
     
     
-    
-    
-   
+
 }

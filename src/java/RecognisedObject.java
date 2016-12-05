@@ -13,16 +13,16 @@ import org.json.JSONObject;
  *
  * @author Beata-MacBook
  */
-public class recognisedObject {
+public class RecognisedObject {
     
     public int objectID;
     public String localisation;
     public String name;
     ArrayList<Keypoint> keypointsArray = new ArrayList<Keypoint>();
     
-    recognisedObject() {}
+    RecognisedObject() {}
 
-    recognisedObject(int id, String name, String localisation) {
+    RecognisedObject(int id, String name, String localisation) {
         this.objectID = id;
         this.localisation = localisation;
         this.name = name;
