@@ -12,6 +12,7 @@ public class Keypoint {
     private int octave;
     private int classID;
     
+    
     public Keypoint(int objectID,int keypointID, double x, double y, double size, double angle, 
             double response, int octave, int classID) {
         

@@ -23,6 +23,7 @@ import org.json.JSONObject;
  *
  * @author Beata-MacBook
  */
+
 public class ObjectDetection extends HttpServlet {
     
     DatabaseManager dbManager;
@@ -32,26 +33,29 @@ public class ObjectDetection extends HttpServlet {
         
      dbManager = new DatabaseManager();
      dbManager.connectToDB();
-     dbManager.createTables();
-     
-     ArrayList<recognisedObject> objects = dbManager.selectObjects();
-     
-     System.out.println(objects.toString());
      
     
     response.setContentType("application/json");
     
-    Keypoint keypoint = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
+    Keypoint keypoint1 = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
+    Keypoint keypoint2 = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
+    Keypoint keypoint3 = new Keypoint(1,1,235.0 ,192.0 , 31.0 , 173.09, 0.001567, 0 , -1);
     
     recognisedObject obraz = new recognisedObject();
-    obraz.setObjectID(1);
+    obraz.setObjectID(4);
     obraz.setLocalisation("salon");
-    obraz.addToArray(keypoint);
+    obraz.setName("krzeslo");
+    
+    for (Keypoint keypoint : dbManager.selectKeypointsWhereId(obraz.getObjectID())) {
+        obraz.addToArray(keypoint);
+    }
+    
         
     PrintWriter writer = response.getWriter();
          // Wyświetlamy dane użytkownikowi
        
-    writer.print(objects.get(0).toJSON());
+    //writer.print(obraz.toJSON());
+    writer.print(obraz.toJSON());
     
     }
     

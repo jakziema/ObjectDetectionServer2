@@ -15,12 +15,25 @@ import org.json.JSONObject;
  */
 public class recognisedObject {
     
+    public int objectID;
+    public String localisation;
+    public String name;
+    ArrayList<Keypoint> keypointsArray = new ArrayList<Keypoint>();
+    
     recognisedObject() {}
 
-    recognisedObject(int id, String objectname) {
+    recognisedObject(int id, String name, String localisation) {
         this.objectID = id;
-        this.localisation = objectname;
-       
+        this.localisation = localisation;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getObjectID() {
@@ -52,9 +65,8 @@ public class recognisedObject {
     }
 
     
-    public int objectID;
-    public String localisation;
-    ArrayList<Keypoint> keypointsArray = new ArrayList<Keypoint>();
+    
+    
 
     
     public JSONObject toJSON() {
@@ -62,6 +74,7 @@ public class recognisedObject {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", getObjectID());
         jsonObject.put("lokalizacja", getLocalisation());
+        jsonObject.put("name", getName());
         JSONArray jsonArray = new JSONArray();
         for (Keypoint item: keypointsArray ){
             jsonArray.put(item.toJSON());
