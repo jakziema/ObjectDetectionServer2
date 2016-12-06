@@ -54,10 +54,7 @@ public class ObjectDetection extends HttpServlet {
             object.keypointsArray = dbManager.selectKeypointsWhereId(object.getObjectID());
             jsonArray.put(object.toJSON());
             bigJSON.put("Przedmioty", jsonArray);
-            
-
         }
-        
         return bigJSON;
     }
     

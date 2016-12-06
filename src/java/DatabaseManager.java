@@ -14,15 +14,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author Beata-MacBook
- */
+
 public class DatabaseManager {
 
     public static final String DRIVER = "org.sqlite.JDBC";
@@ -133,23 +125,37 @@ public class DatabaseManager {
     public ArrayList<RecognisedObject> parseJSON(JSONObject jsonObject) {
         ArrayList<RecognisedObject> recognisedObjects = new ArrayList<RecognisedObject>();
         
-        JSONObject jsonToParse = jsonObject;
-        
-                
+        JSONObject jsonToParse = jsonObject;                
         return recognisedObjects;
     }
     
     public void insertObject(String name, String localisation) {
         try {
             
+            
+            
             String insertSQL = "INSERT into objects (objectname, roomname) "
                     + "values ('"+ name +"', '"+localisation+"')";
             stat.execute(insertSQL);
             
-            System.out.println("Dodano" + name); 
+            System.out.println("\nDodano: " + name + " lokalizacja: "+ localisation); 
             
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public void insertKeypoint(String objectName, Double x, Double y, Double size, 
+            Double angle, Double response, int octave, int classid) {
+        try {
+            String insertSQL = "Insert into keypoints(objectid,x,y,size,angle,response,octave,classid) "
+                    + "values ((SELECT objectid from objects where objectname='"+ objectName +"'),"
+                    +String.valueOf(x)+ ","+ String.valueOf(y)+ ","+String.valueOf(size)
+                    + ","+ String.valueOf(angle)+ ","+ String.valueOf(response) 
+                    + ","+ String.valueOf(octave)+ ","+ String.valueOf(classid)+")";
+            stat.execute(insertSQL);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

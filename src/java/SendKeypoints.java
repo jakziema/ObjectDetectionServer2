@@ -28,19 +28,32 @@ public class SendKeypoints extends HttpServlet {
 
         String jsonAsString = request.getParameter("Przedmioty");
         System.out.println(jsonAsString);
-        
+
         JSONObject receivedJSON = new JSONObject(jsonAsString);
-        
-        
+
         String name = receivedJSON.getString("nazwa");
         String localisation = receivedJSON.getString("lokalizacja");
-       
-        System.out.println("NAME: " + name + " LOCALISATION: " + localisation);
+        JSONArray keypointsArray = receivedJSON.getJSONArray("keypoints");
+
         DatabaseManager dbManager = new DatabaseManager();
-        
         dbManager.connectToDB();
         dbManager.insertObject(name, localisation);
-        
+
+        for (int i = 0; i < keypointsArray.length(); i++) {
+
+            JSONObject jsonLineItem = keypointsArray.getJSONObject(i);
+            Double x = jsonLineItem.getDouble("x");
+        Double y = jsonLineItem.getDouble("y");
+            Double size = jsonLineItem.getDouble("size");
+            Double angle = jsonLineItem.getDouble("angle");
+            Double reponse = jsonLineItem.getDouble("response");
+            int octave = jsonLineItem.getInt("octave");
+            int classid = jsonLineItem.getInt("class_id");
+
+            dbManager.insertKeypoint(name, x, y, size, angle, reponse, octave, classid);
+
+        }
+
     }
 
     /**
