@@ -1,6 +1,8 @@
 
 import org.json.JSONObject;
-
+/*
+Klasa modelująca punkt charakterystyczny
+*/
 public class Keypoint {
     private int objectID;
     private int keypointID;

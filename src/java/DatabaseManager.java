@@ -14,7 +14,10 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
+/*
+Klasa pozwalaja na polaczenie i wykonywanie operacji create, insert,select na 
+bazie danych
+*/
 public class DatabaseManager {
 
     public static final String DRIVER = "org.sqlite.JDBC";
@@ -23,7 +26,10 @@ public class DatabaseManager {
 
     private Connection conn;
     private Statement stat;
-
+    
+    /*
+    Funkcja pozwalajaca na polaczenie z baza danych
+    */
     public void connectToDB() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -43,7 +49,9 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     }
-
+    /*
+    Metoda tworząca tabele
+    */
     public boolean createTables() {
         String createPrzedmioty = "CREATE TABLE IF NOT EXISTS objects"
                 + " (OBJECTID INT PRIMARY KEY     NOT NULL,"
@@ -71,7 +79,9 @@ public class DatabaseManager {
         }
         return true;
     }
-
+    /*
+    Metoda zwracająca tablicę obiektów typu RecognisedObjects z bazy danych
+    */
     public ArrayList<RecognisedObject> selectObjects() {
         ArrayList<RecognisedObject> objects = new ArrayList<>();
         try {
@@ -91,7 +101,11 @@ public class DatabaseManager {
 
         return objects;
     }
-
+    
+    /*
+    Metoda zwracają tablice obiektów typu Keypoint, które należą do określonego 
+    przedmiotu o id
+    */
     public ArrayList<Keypoint> selectKeypointsWhereId(int id) {
 
         ArrayList<Keypoint> keypoints = new ArrayList<>();
@@ -120,14 +134,10 @@ public class DatabaseManager {
 
         return keypoints;
     }
-
-    public ArrayList<RecognisedObject> parseJSON(JSONObject jsonObject) {
-        ArrayList<RecognisedObject> recognisedObjects = new ArrayList<RecognisedObject>();
-        
-        JSONObject jsonToParse = jsonObject;                
-        return recognisedObjects;
-    }
-    
+   
+   /*
+    Metoda pozwalająca na zapisanie w bazie przedmiotów
+    */ 
     public void insertObject(String name, String localisation) {
         try {
             
@@ -142,6 +152,9 @@ public class DatabaseManager {
         }
     }
     
+    /*
+    Metoda pozwalająca na zapisanie w bazie punktów charakterystycznych
+    */
     public void insertKeypoint(String objectName, Double x, Double y, Double size, 
             Double angle, Double response, int octave, int classid) {
         try {

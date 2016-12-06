@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/*
+Klasa obsługująca żądanie typu GET
+*/
+
 public class ObjectDetection extends HttpServlet {
 
     DatabaseManager dbManager;
@@ -28,11 +32,13 @@ public class ObjectDetection extends HttpServlet {
         PrintWriter writer = response.getWriter();
         writer.print(getAllObjects());
         
-        PrintWriter out = new PrintWriter("filename.txt");
-        out.write(getAllObjects().toString());
 
     }
-
+    
+    /*
+    Metoda zwracająca z bazy wszystkie przedmioty wraz z ich punktami 
+    charakterystycznymi w formacie JSON
+    */
     public  JSONObject getAllObjects() {
         //wybieramy wszystkie przedmioty
         ArrayList<RecognisedObject> objects = dbManager.selectObjects();
