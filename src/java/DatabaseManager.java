@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -104,8 +105,7 @@ public class DatabaseManager {
         ArrayList<Keypoint> keypoints = new ArrayList<>();
 
         try {
-            
-            
+
             ResultSet resultKeypoints = stat.executeQuery(
                     "SELECT * FROM keypoints WHERE objectid = " + String.valueOf(id));
 
@@ -119,21 +119,24 @@ public class DatabaseManager {
                 double response = resultKeypoints.getDouble("response");
                 int octave = resultKeypoints.getInt("octave");
                 int classID = resultKeypoints.getInt("classid");
-                
-                 keypoints.add(new Keypoint(objectID, keypointID, x, y , 
-                    size, angle, response, octave, classID ));           
-            } 
+
+                keypoints.add(new Keypoint(objectID, keypointID, x, y,
+                        size, angle, response, octave, classID));
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-      return keypoints;  
+        return keypoints;
     }
-    
-    
-    
+
     public ArrayList<RecognisedObject> parseJSON(JSONObject jsonObject) {
-        ArrayList<RecognisedObject> 
+        ArrayList<RecognisedObject> recognisedObjects = new ArrayList<RecognisedObject>();
+        
+        JSONObject jsonToParse = jsonObject;
+        
+                
+        return recognisedObjects;
     }
 
 }

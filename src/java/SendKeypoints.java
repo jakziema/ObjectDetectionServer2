@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
@@ -19,15 +20,18 @@ import org.json.JSONObject;
  */
 public class SendKeypoints extends HttpServlet {
 
-   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String jsonAsString = request.getParameter("Przedmioty");
+        System.out.println(jsonAsString);
         
+        PrintWriter printWriter = new PrintWriter("keypoints.txt");
+        printWriter.write(jsonAsString);
+        printWriter.close();
         
-        System.out.println(request.getParameter("Przedmioty").toString());
-       
-       
+
     }
 
     /**

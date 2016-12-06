@@ -36,6 +36,9 @@ public class ObjectDetection extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter writer = response.getWriter();
         writer.print(getAllObjects());
+        
+        PrintWriter out = new PrintWriter("filename.txt");
+        out.write(getAllObjects().toString());
 
     }
 
@@ -51,6 +54,7 @@ public class ObjectDetection extends HttpServlet {
             object.keypointsArray = dbManager.selectKeypointsWhereId(object.getObjectID());
             jsonArray.put(object.toJSON());
             bigJSON.put("Przedmioty", jsonArray);
+            
 
         }
         
