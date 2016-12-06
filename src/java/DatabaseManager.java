@@ -138,5 +138,19 @@ public class DatabaseManager {
                 
         return recognisedObjects;
     }
+    
+    public void insertObject(String name, String localisation) {
+        try {
+            
+            String insertSQL = "INSERT into objects (objectname, roomname) "
+                    + "values ('"+ name +"', '"+localisation+"')";
+            stat.execute(insertSQL);
+            
+            System.out.println("Dodano" + name); 
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

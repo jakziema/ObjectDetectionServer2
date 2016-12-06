@@ -12,6 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -27,11 +29,18 @@ public class SendKeypoints extends HttpServlet {
         String jsonAsString = request.getParameter("Przedmioty");
         System.out.println(jsonAsString);
         
-        PrintWriter printWriter = new PrintWriter("keypoints.txt");
-        printWriter.write(jsonAsString);
-        printWriter.close();
+        JSONObject receivedJSON = new JSONObject(jsonAsString);
         
-
+        
+        String name = receivedJSON.getString("nazwa");
+        String localisation = receivedJSON.getString("lokalizacja");
+       
+        System.out.println("NAME: " + name + " LOCALISATION: " + localisation);
+        DatabaseManager dbManager = new DatabaseManager();
+        
+        dbManager.connectToDB();
+        dbManager.insertObject(name, localisation);
+        
     }
 
     /**
