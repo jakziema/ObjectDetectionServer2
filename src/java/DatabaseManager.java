@@ -97,9 +97,8 @@ public class DatabaseManager {
         ArrayList<Keypoint> keypoints = new ArrayList<>();
 
         try {
-
-            ResultSet resultKeypoints = stat.executeQuery(
-                    "SELECT * FROM keypoints WHERE objectid = " + String.valueOf(id));
+            String sql  ="SELECT * FROM keypoints WHERE objectid = " + String.valueOf(id);
+            ResultSet resultKeypoints = stat.executeQuery(sql);
 
             while (resultKeypoints.next()) {
                 int objectID = resultKeypoints.getInt("objectid");
@@ -132,8 +131,6 @@ public class DatabaseManager {
     public void insertObject(String name, String localisation) {
         try {
             
-            
-            
             String insertSQL = "INSERT into objects (objectname, roomname) "
                     + "values ('"+ name +"', '"+localisation+"')";
             stat.execute(insertSQL);
@@ -153,6 +150,7 @@ public class DatabaseManager {
                     +String.valueOf(x)+ ","+ String.valueOf(y)+ ","+String.valueOf(size)
                     + ","+ String.valueOf(angle)+ ","+ String.valueOf(response) 
                     + ","+ String.valueOf(octave)+ ","+ String.valueOf(classid)+")";
+            
             stat.execute(insertSQL);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);

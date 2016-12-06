@@ -22,23 +22,37 @@ import org.json.JSONObject;
  */
 public class SendKeypoints extends HttpServlet {
 
+    DatabaseManager dbManager;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        dbManager = new DatabaseManager();
+        dbManager.connectToDB();
+        
         String jsonAsString = request.getParameter("Przedmioty");
-        System.out.println(jsonAsString);
+        insertObjectsFromJSONAsString(jsonAsString, dbManager);
+        insertKeypointsFromJSONAsString(jsonAsString, dbManager);
+        
+        
 
+        
+
+    }
+    
+    public void insertObjectsFromJSONAsString(String jsonAsString, DatabaseManager dbManager) {
         JSONObject receivedJSON = new JSONObject(jsonAsString);
 
         String name = receivedJSON.getString("nazwa");
         String localisation = receivedJSON.getString("lokalizacja");
-        JSONArray keypointsArray = receivedJSON.getJSONArray("keypoints");
-
-        DatabaseManager dbManager = new DatabaseManager();
-        dbManager.connectToDB();
         dbManager.insertObject(name, localisation);
-
+    }
+    
+    public void insertKeypointsFromJSONAsString(String jsonAsString, DatabaseManager dbManager) {
+        
+        JSONObject receivedJSON = new JSONObject(jsonAsString);
+        String name = receivedJSON.getString("nazwa");
+        JSONArray keypointsArray = receivedJSON.getJSONArray("keypoints");
         for (int i = 0; i < keypointsArray.length(); i++) {
 
             JSONObject jsonLineItem = keypointsArray.getJSONObject(i);
@@ -53,7 +67,6 @@ public class SendKeypoints extends HttpServlet {
             dbManager.insertKeypoint(name, x, y, size, angle, reponse, octave, classid);
 
         }
-
     }
 
     /**
